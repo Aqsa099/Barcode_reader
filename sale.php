@@ -17,8 +17,8 @@ th {text-align: center;}
 </style>
 </head>
 <body>
-   
-		<?php
+    	<?php
+		//table headings
 		echo "<table>
 					<tr>
 					<th>Model</th>
@@ -28,7 +28,7 @@ th {text-align: center;}
 					<th>Sale price</th>
 					<th>Imei No</th>
 					</tr>";
-			
+			// array declaration
 			$model_array = array();
 			$manufactured_array = array();
 			$expiry_array = array();
@@ -36,22 +36,24 @@ th {text-align: center;}
 			$sale_array = array();
 			$imei_array = array();
 			
-			
+			// get imei value and store in variable 
 			$imei = intval($_GET['val']);
-
+			
+			//connection
 			$con = mysqli_connect('localhost','root','','msms');
 			if (!$con) {
 				die('Could not connect: ' . mysqli_error($con));
 			}
 
 			//mysqli_select_db($con,"msms");
+			
+			//query
 			$sql="SELECT * FROM shop_management_system  WHERE imei= '".$imei."'";
 			$result = mysqli_query($con,$sql);
 			
-			
-			
-			
 			while($row = mysqli_fetch_array($result)) {
+				
+				//data fetch from array and store in another php variables
 				$model                  = $row['Mobile_phone'];
 				$manufactured_date      = $row['expiry_starting'];
 				$expiry_date	        = $row['expiry_ending']; 
@@ -59,6 +61,7 @@ th {text-align: center;}
 				$sale_price             = $row['sale_price']; 
 				$imei_val               = $row['imei'];
 				
+				//new values push in array
 				array_push($model_array, $model);
 				array_push($manufactured_array, $manufactured_date);
 				array_push($expiry_array, $expiry_date);
@@ -66,10 +69,12 @@ th {text-align: center;}
 				array_push($sale_array, $sale_price);
 				array_push($imei_array, $imei_val);
 				
+				//length of array
 				$length = count($model);
 				for($i=0; $i<$length; $i++){
 					echo $i;
 				}
+				//display data in table format
 				echo "<tr>";
 					echo "<td>" . $model    . "</td>";
 					echo "<td>" . $manufactured_date  . "</td>";
@@ -79,8 +84,7 @@ th {text-align: center;}
 					echo "<td>" . $imei_val  . "</td>";
 				echo "</tr>";
 				
-				?>
-				
+				?>		
 		<?php
 		}
 		echo "</table>";
